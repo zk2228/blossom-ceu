@@ -1,0 +1,30 @@
+name: Fetch jsPDF Library
+on:
+  push:
+    paths:
+      - '.github/workflows/fetch-jspdf.yml'
+  workflow_dispatch:
+
+jobs:
+  fetch-jspdf:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Download jsPDF 2.5.1
+        run: |
+          curl -L "https://unpkg.com/jspdf@2.5.1/dist/jspdf.umd.min.js" -o jspdf.umd.min.js
+          echo "Downloaded: $(wc -c < jspdf.umd.min.js) bytes"
+          
+      - name: Commit jsPDF to repo
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add jspdf.umd.min.js
+          git diff --staged --quiet || git commit -m "Add jspdf.umd.min.js 2.5.1 library (364KB)"
+          git push
+          
+      - name: Verify file
+        run: echo "jspdf.umd.min.js committed: $(wc -c < jspdf.umd.min.js) bytes"
