@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CEU Credit Request | Blossom Children's Center</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rowdies:wght@300;400;700&family=Nunito:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="site-header">
+        <div class="header-inner">
+            <div class="logo">
+                <span class="logo-blossom">blossom</span>
+                <span class="logo-sub">CHILDREN'S CENTER</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-inner">
+            <h1 class="hero-title">CEU Credit Request</h1>
+            <p class="hero-subtitle">Are you a BCBA looking for CEU credits? Maintain your certification and stay up-to-date with the latest research and practices. Our podcast <strong>Blossoming Together</strong> provides <strong>FREE</strong> Continuing Education Credits.</p>
+        </div>
+    </section>
+
+    <!-- Form Section -->
+    <main class="form-section">
+        <div class="form-container">
+
+            <!-- Step 1: Info Form -->
+            <div class="form-card" id="formCard">
+                <div class="step-indicator">
+                    <div class="step active"><span class="step-num">1</span><span class="step-label">Your Info</span></div>
+                    <div class="step-line"></div>
+                    <div class="step"><span class="step-num">2</span><span class="step-label">Quiz</span></div>
+                    <div class="step-line"></div>
+                    <div class="step"><span class="step-num">3</span><span class="step-label">Certificate</span></div>
+                </div>
+                <div class="form-header">
+                    <h2>Step 1: Your Information</h2>
+                    <p>Complete the form below, then verify your learning with a short quiz.</p>
+                </div>
+                <form id="ceuForm" novalidate>
+                    <div class="form-group">
+                        <label for="name">First and Last Name <span class="required">*</span></label>
+                        <input type="text" id="name" name="name" required placeholder="e.g., Jane Smith" autocomplete="name">
+                        <div class="error-msg" id="nameError"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email Address <span class="required">*</span></label>
+                        <input type="email" id="email" name="email" required placeholder="e.g., jane@example.com" autocomplete="email">
+                        <div class="error-msg" id="emailError"></div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="bacbCertNumber">BACB Certification Number <span class="required">*</span></label>
+                            <input type="text" id="bacbCertNumber" name="bacbCertNumber" required placeholder="e.g., 1-23-45678">
+                            <div class="error-msg" id="bacbCertNumberError"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="bacbIdNumber">BACB ID Number <span class="required">*</span></label>
+                            <input type="text" id="bacbIdNumber" name="bacbIdNumber" required placeholder="e.g., 12345678">
+                            <div class="error-msg" id="bacbIdNumberError"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="episode">Episode Watched <span class="required">*</span></label>
+                            <select id="episode" name="episode" required>
+                                <option value="">Select an episode...</option>
+                                <option value="Episode 01" disabled>Episode 01 (coming soon)</option>
+                                <option value="Episode 02" disabled>Episode 02 (coming soon)</option>
+                                <option value="Episode 03">Episode 03</option>
+                                <option value="Episode 04">Episode 04</option>
+                                <option value="Episode 05">Episode 05</option>
+                                <option value="Episode 06">Episode 06</option>
+                                <option value="Episode 08">Episode 08</option>
+                                <option value="Episode 09">Episode 09</option>
+                                <option value="Episode 10">Episode 10</option>
+                                <option value="Episode 11">Episode 11</option>
+                                <option value="Episode 12">Episode 12</option>
+                                <option value="Episode 13">Episode 13</option>
+                                <option value="Episode 14">Episode 14</option>
+                                <option value="Episode 16">Episode 16</option>
+                                <option value="Episode 17">Episode 17</option>
+                                <option value="Episode 18">Episode 18</option>
+                            </select>
+                            <div class="error-msg" id="episodeError"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="dateWatched">Date Watched <span class="required">*</span></label>
+                            <input type="date" id="dateWatched" name="dateWatched" required>
+                            <div class="error-msg" id="dateWatchedError"></div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-submit" id="submitBtn">
+                        <span class="btn-text">Continue to Quiz</span>
+                        <span class="btn-loading" style="display:none;">
+                            <svg class="spinner" width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                <circle cx="12" cy="12" r="10" stroke="white" stroke-width="3" stroke-linecap="round" stroke-dasharray="31.4 31.4" />
+                            </svg>
+                            Processing...
+                        </span>
+                    </button>
+                </form>
+            </div>
+
+            <!-- Step 2: Quiz -->
+            <div class="form-card" id="quizCard" style="display:none;">
+                <div class="step-indicator">
+                    <div class="step completed"><span class="step-num">&#10003;</span><span class="step-label">Your Info</span></div>
+                    <div class="step-line active"></div>
+                    <div class="step active"><span class="step-num">2</span><span class="step-label">Quiz</span></div>
+                    <div class="step-line"></div>
+                    <div class="step"><span class="step-num">3</span><span class="step-label">Certificate</span></div>
+                </div>
+                <div class="form-header">
+                    <h2>Step 2: Code Word Quiz</h2>
+                    <p>Enter the code words from <strong id="quizEpisodeTitle">Episode</strong>. These words were mentioned throughout the episode.</p>
+                </div>
+                <form id="quizForm" novalidate>
+                    <div id="quizFields"></div>
+                    <div class="quiz-error" id="quizErrorMsg" style="display:none;">
+                        One or more code words are incorrect. Please try again.
+                    </div>
+                    <div class="quiz-buttons">
+                        <button type="button" class="btn-back" id="quizBackBtn">Back</button>
+                        <button type="submit" class="btn-submit" id="quizSubmitBtn">
+                            <span class="btn-text">Submit Answers</span>
+                            <span class="btn-loading" style="display:none;">
+                                <svg class="spinner" width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                    <circle cx="12" cy="12" r="10" stroke="white" stroke-width="3" stroke-linecap="round" stroke-dasharray="31.4 31.4" />
+                                </svg>
+                                Generating Certificate...
+                            </span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Success -->
+            <div class="success-card" id="successCard" style="display:none;">
+                <div class="step-indicator">
+                    <div class="step completed"><span class="step-num">&#10003;</span><span class="step-label">Your Info</span></div>
+                    <div class="step-line active"></div>
+                    <div class="step completed"><span class="step-num">&#10003;</span><span class="step-label">Quiz</span></div>
+                    <div class="step-line active"></div>
+                    <div class="step completed"><span class="step-num">&#10003;</span><span class="step-label">Certificate</span></div>
+                </div>
+                <div class="success-icon">
+                    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#F26522" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                        <polyline points="22 4 12 14.01 9 11.01"/>
+                    </svg>
+                </div>
+                <h2>Certificate Generated!</h2>
+                <p class="success-name" id="successName"></p>
+                <p class="success-detail">Your CEU certificate has been generated and downloaded. Please check your downloads folder.</p>
+                <p class="success-detail light">If the download didn't start automatically, click the button below.</p>
+                <button class="btn-download" id="downloadBtn">Download Certificate</button>
+                <button class="btn-another" id="anotherBtn">Submit Another Request</button>
+            </div>
+
+            <!-- Fail -->
+            <div class="fail-card" id="failCard" style="display:none;">
+                <div class="fail-icon">
+                    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#D94444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"/>
+                        <line x1="15" y1="9" x2="9" y2="15"/>
+                        <line x1="9" y1="9" x2="15" y2="15"/>
+                    </svg>
+                </div>
+                <h2>Incorrect Code Words</h2>
+                <p class="fail-detail">One or more of your code words didn't match. Please re-watch the episode and listen carefully for the code words mentioned throughout.</p>
+                <button class="btn-submit" id="retryBtn">Try Again</button>
+                <button class="btn-another" id="startOverBtn">Start Over</button>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Info Note -->
+    <section class="info-note">
+        <div class="info-inner">
+            <p>For official rules &amp; regulations, please reference Episode 10 on our <a href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer">YouTube channel</a>.</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <span class="footer-logo">blossom</span>
+                <span class="footer-logo-sub">CHILDREN'S CENTER</span>
+            </div>
+            <div class="footer-contact">
+                <p>Questions? Contact us at <a href="mailto:katie@blossomchildrenscenter.com">katie@blossomchildrenscenter.com</a></p>
+            </div>
+            <div class="footer-copy">
+                <p>&copy; 2026 Blossom Children's Center. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="./jspdf.umd.min.js"></script>
+    <script src="./app.js"></script>
+</body>
+</html>
