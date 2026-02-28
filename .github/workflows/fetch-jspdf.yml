@@ -16,7 +16,7 @@ jobs:
       - name: Download jsPDF 2.5.1
         run: |
           curl -L "https://unpkg.com/jspdf@2.5.1/dist/jspdf.umd.min.js" -o jspdf.umd.min.js
-          echo "Downloaded: $(wc -c < jspdf.umd.min.js) bytes"
+          ls -la jspdf.umd.min.js
           
       - name: Commit jsPDF to repo
         run: |
@@ -25,6 +25,3 @@ jobs:
           git add jspdf.umd.min.js
           git diff --staged --quiet || git commit -m "Add jspdf.umd.min.js 2.5.1 library (364KB)"
           git push
-          
-      - name: Verify file
-        run: echo "jspdf.umd.min.js committed: $(wc -c < jspdf.umd.min.js) bytes"
