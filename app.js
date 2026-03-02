@@ -27,10 +27,6 @@ const EPISODE_CODE_WORDS = {
     "Episode 18": ["aac", "myth", "learner"],
 };
 
-// Kosai Zaya's signature (raw base64-encoded JPEG — no data URI prefix)
-// jsPDF addImage works most reliably with raw base64 + explicit format parameter
-const KOSAI_SIGNATURE_B64 = "/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAMCAgMCAgMDAwMEAwMEBQgFBQQEBQoHBwYIDAoMDAsKCwsNDhIQDQ4RDgsLEBYQERMUFRUVDA8XGBYUGBIUFRT/2wBDAQMEBAUEBQkFBQkUDQsNFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBT/wAARCABnAPADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD9U6KKRmCjJoACdozXC/Ez46/D74N2YufGvjDSPDasMpFfXSrNL/1ziGXc+yqa8g8c/G3xV8a/F2rfDf4ITR250+U2niP4i3Efm2Oiv/Hb2q9Lm8A7D5Izjcc9O4+Ef7J3w2+DzRX2m+HoNV8Tn57rxTrYF7qt3KfvyyXEmWDMckhdo9BigCh8O/2x/h18SPGVj4ZtJNb0bUdUR5NHbxDolzpsWrogyxtXmRRIQOdvDY7cGvca8C/bk8IReIv2aPGerRYg1vwpZv4o0fUF4ls7yyBnSSNuoJCMh9Q5Fev+BPEf/CY+CtA14RGEapp9vfCM/wAHmxK+Pw3UAb1FFZviHxHpfhPRb3WNav7fStKsomnub28lWKGGMclmYnAA96ANKivnDwv+0X4/+NWuafdfC74dRyfDxrld/jLxdfNp8d/bhgHaxtVRppARuKySBVOB68fRqggc0AOooooAKKKKACiioL2+t9Otprm6mjt7eFDLLNK4RI0AyWZjwAAMkmgCeivFPBv7Z/wW+IPjq18HeHfH1hq2v3crw20MEM/k3DopZlinMYikOFONrnOOM17X1oAKKKKACiiigAooooAKKKKACiiigAooooARmCjJr5Y+IXxF8SftNeMtU+F3wr1SbSPCemzG18Y/ECzP+oP8enae/RrlgcPKMiIH+9ivbPjd8PNX+Kvw41Twto3i298EXGohYZdX02FZLhINw81I9xGxnXK7wcrnIrX+HPw58PfCjwZpXhXwtpsOk6JpkIht7aFcADuzHqzMcszHJZjksSSTXTUUUAeSftckL+yv8YiSAP+AhDtXHPr9jlrovgUpT4K+AVYFWHh/TwQex+yx15r+3vrLaZ+yj49s7cGTUNbtYtBsoFPzSz3kyW6KP+/hJ9ga9x8PaUmgaDp2moR5dnbRWykdMIgX+lAE2r6pa6Jpl1qN9cxWVjaRPPPcTMFSKNFLMzE9AACSfavlfwh4du/229ftfHPi+1lg+C2n3HneFfCl0hQa+6n5dTvkP3os8wwkYI+Zhz81/8AtA1yf9ozx4vwC8LyyPpMUkF38QtXt32pZafneunK4/8AXi52gFR9BigCh8O/2x/h18SPGVj4ZtJNb0bUdUR5NHbxDolzpsWrogyxtXmRRIQOdvDY7cGvca8C/bk8IReIv2aPGerRYg1vwpZv4o0fUF4ls7yyBnSSNuoJCMh9Q5Fev+BPEf/ACY+CtA14RGEapp9vfCM/wAHmxK+Pw3UAb1FFZviHxHpfhPRb3WNav7fStKsomnub28lWKGGMclmYnAA96ANKivnDwv+0X4/+NWuafdfC74dRyfDxrld/jLxdfNp8d/bhgHaxtVRppARuKySBVOB68fRqggc0AOooooAKKKKACiioL2+t9Otprm6mjt7eFDLLNK4RI0AyWZjwAAMkmgCeivFPBv7Z/wW+IPjq18HeHfH1hq2v3crw20MEM/k3DopZlinMYikOFONrnOOM17X1oAKKKKACiiigAooooAKKKKACiiigAooooARmCjJr5Y+IXxF8SftNeMtU+F3wr1SbSPCemzG18Y/ECzP+oP8enae/RrlgcPKMiIH+9ivbPjd8PNX+Kvw41Twto3i298EXGohYZdX02FZLhINw81I9xGxnXK7wcrnIrX+HPw58PfCjwZpXhXwtpsOk6JpkIht7aFcADuzHqzMcszHJZjksSSTXTUUUAeSftckL+yv8YiSAP+AhDtXHPr9jlrovgUpT4K+AVYFWHh/TwQex+yx15r+3vrLaZ+yj49s7cGTUNbtYtBsoFPzSz3kyW6KP+/hJ9ga9x8PaUmgaDp2moR5dnbRWykdMIgX+lAE2r6pa6Jpl1qN9cxWVjaRPPPcTMFSKNFLMzE9AACSfavlfwh4du/229ftfHPi+1lg+C2n3HneFfCl0hQa+6n5dTvkP3os8wwkYI+Zhz81/8AtA1yf9ozx4vwC8LyyPpMUkF38QtXt32pZafneunK4/8AXi52gFR9BigCh8O/2x/h18SPGVj4ZtJNb0bUdUR5NHbxDolzpsWrogyxtXmRRIQOdvDY7cGvca8C/bk8IReIv2aPGerRYg1vwpZv4o0fUF4ls7yyBnSSNuoJCMh9Q5Fev+BPEf/ACY+CtA14RGEapp9vfCM/wAHmxK+Pw3UAb1FFZviHxHpfhPRb3WNav7fStKsomnub28lWKGGMclmYnAA96ANKivnDwv+0X4/+NWuafdfC74dRyfDxrld/jLxdfNp8d/bhgHaxtVRppARuKySBVOB68fRqggc0AOooooAKKKKACiioL2+t9Otprm6mjt7eFDLLNK4RI0AyWZjwAAMkmgCeivFPBv7Z/wW+IPjq18HeHfH1hq2v3crw20MEM/k3DopZlinMYikOFONrnOOM17X1oAKKKKACiiigAooooAKKKKACiiigAooooA//2Q==";
-
 // In-memory state
 let lastPdfBlob = null;
 let lastFilename = null;
@@ -446,7 +442,7 @@ function generateCertificate(data) {
     doc.setFont("helvetica", "bold");
     doc.setFontSize(16);
     doc.setTextColor(...orange);
-    doc.text(`Blossoming Together Podcast — ${data.episode}`, w / 2, y, { align: "center" });
+    doc.text(`Blossoming Together Podcast \u2014 ${data.episode}`, w / 2, y, { align: "center" });
 
     // Date
     y += 26;
@@ -468,24 +464,14 @@ function generateCertificate(data) {
     doc.setTextColor(255, 255, 255);
     doc.text("1.0 CEU Credit Awarded", w / 2, y + 19, { align: "center" });
 
-    // Signature image — use raw base64 directly (no canvas re-encoding)
-    y += 44;
-    const sigImgW = 120;
-    const sigImgH = 50;
+    // Signature — styled text
+    y += 50;
+    doc.setFont("helvetica", "bolditalic");
+    doc.setFontSize(22);
+    doc.setTextColor(...darkBg);
+    doc.text("Kosai Zaya", w / 2, y, { align: "center" });
 
-    try {
-        doc.addImage(KOSAI_SIGNATURE_B64, 'JPEG', (w - sigImgW) / 2, y, sigImgW, sigImgH);
-        console.log('Signature rendered via raw base64');
-    } catch (e) {
-        console.error('Signature addImage failed:', e);
-        // Text fallback
-        doc.setFont('helvetica', 'bolditalic');
-        doc.setFontSize(16);
-        doc.setTextColor(...darkBg);
-        doc.text('Kosai Zaya', w / 2, y + 30, { align: 'center' });
-    }
-
-    y += sigImgH + 4;
+    y += 10;
     const sigLineW = 180;
     doc.setDrawColor(...lightGray);
     doc.setLineWidth(0.8);
