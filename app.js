@@ -29,39 +29,7 @@ const EPISODE_CODE_WORDS = {
 
 // Kosai Zaya's signature (raw base64-encoded JPEG — no data URI prefix)
 // jsPDF addImage works most reliably with raw base64 + explicit format parameter
-const KOSAI_SIGNATURE_B64 = "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";
-
-// Helper: load signature into a canvas and return a PNG dataURL
-// This is the most reliable method for jsPDF across all versions.
-function getSignatureAsCanvasDataURL() {
-    return new Promise((resolve, reject) => {
-        try {
-            const img = new Image();
-            img.onload = function() {
-                try {
-                    const canvas = document.createElement('canvas');
-                    canvas.width = img.width;
-                    canvas.height = img.height;
-                    const ctx = canvas.getContext('2d');
-                    ctx.drawImage(img, 0, 0);
-                    const dataURL = canvas.toDataURL('image/jpeg', 0.95);
-                    console.log('Signature canvas ready:', img.width, 'x', img.height, 'dataURL length:', dataURL.length);
-                    resolve(dataURL);
-                } catch (e) {
-                    console.error('Canvas draw failed:', e);
-                    reject(e);
-                }
-            };
-            img.onerror = function(e) {
-                console.error('Signature image load failed:', e);
-                reject(e);
-            };
-            img.src = 'data:image/jpeg;base64,' + KOSAI_SIGNATURE_B64;
-        } catch (e) {
-            reject(e);
-        }
-    });
-}
+const KOSAI_SIGNATURE_B64 = "/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAMCAgMCAgMDAwMEAwMEBQgFBQQEBQoHBwYIDAoMDAsKCwsNDhIQDQ4RDgsLEBYQERMUFRUVDA8XGBYUGBIUFRT/2wBDAQMEBAUEBQkFBQkUDQsNFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBT/wAARCABnAPADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD9U6KKRmCjJoACdozXC/Ez46/D74N2YufGvjDSPDasMpFfXSrNL/1ziGXc+yqa8g8c/G3xV8a/F2rfDf4ITR250+U2niP4i3Efm2Oiv/Hb2q9Lm8A7D5Izjcc9O4+Ef7J3w2+DzRX2m+HoNV8Tn57rxTrYF7qt3KfvyyXEmWDMckhdo9BigCh8O/2x/h18SPGVj4ZtJNb0bUdUR5NHbxDolzpsWrogyxtXmRRIQOdvDY7cGvca8C/bk8IReIv2aPGerRYg1vwpZv4o0fUF4ls7yyBnSSNuoJCMh9Q5Fev+BPEf/CY+CtA14RGEapp9vfCM/wAHmxK+Pw3UAb1FFZviHxHpfhPRb3WNav7fStKsomnub28lWKGGMclmYnAA96ANKivnDwv+0X4/+NWuafdfC74dRyfDxrld/jLxdfNp8d/bhgHaxtVRppARuKySBVOB68fRqggc0AOooooAKKKKACiioL2+t9Otprm6mjt7eFDLLNK4RI0AyWZjwAAMkmgCeivFPBv7Z/wW+IPjq18HeHfH1hq2v3crw20MEM/k3DopZlinMYikOFONrnOOM17X1oAKKKKACiiigAooooAKKKKACiiigAooooARmCjJr5Y+IXxF8SftNeMtU+F3wr1SbSPCemzG18Y/ECzP+oP8enae/RrlgcPKMiIH+9ivbPjd8PNX+Kvw41Twto3i298EXGohYZdX02FZLhINw81I9xGxnXK7wcrnIrX+HPw58PfCjwZpXhXwtpsOk6JpkIht7aFcADuzHqzMcszHJZjksSSTXTUUUAeSftckL+yv8YiSAP+AhDtXHPr9jlrovgUpT4K+AVYFWHh/TwQex+yx15r+3vrLaZ+yj49s7cGTUNbtYtBsoFPzSz3kyW6KP+/hJ9ga9x8PaUmgaDp2moR5dnbRWykdMIgX+lAE2r6pa6Jpl1qN9cxWVjaRPPPcTMFSKNFLMzE9AACSfavlfwh4du/229ftfHPi+1lg+C2n3HneFfCl0hQa+6n5dTvkP3os8wwkYI+Zhz81/8AtA1yf9ozx4vwC8LyyPpMUkF38QtXt32pZafneunK4/8AXi52gFR9BigCh8O/2x/h18SPGVj4ZtJNb0bUdUR5NHbxDolzpsWrogyxtXmRRIQOdvDY7cGvca8C/bk8IReIv2aPGerRYg1vwpZv4o0fUF4ls7yyBnSSNuoJCMh9Q5Fev+BPEf/ACY+CtA14RGEapp9vfCM/wAHmxK+Pw3UAb1FFZviHxHpfhPRb3WNav7fStKsomnub28lWKGGMclmYnAA96ANKivnDwv+0X4/+NWuafdfC74dRyfDxrld/jLxdfNp8d/bhgHaxtVRppARuKySBVOB68fRqggc0AOooooAKKKKACiioL2+t9Otprm6mjt7eFDLLNK4RI0AyWZjwAAMkmgCeivFPBv7Z/wW+IPjq18HeHfH1hq2v3crw20MEM/k3DopZlinMYikOFONrnOOM17X1oAKKKKACiiigAooooAKKKKACiiigAooooARmCjJr5Y+IXxF8SftNeMtU+F3wr1SbSPCemzG18Y/ECzP+oP8enae/RrlgcPKMiIH+9ivbPjd8PNX+Kvw41Twto3i298EXGohYZdX02FZLhINw81I9xGxnXK7wcrnIrX+HPw58PfCjwZpXhXwtpsOk6JpkIht7aFcADuzHqzMcszHJZjksSSTXTUUUAeSftckL+yv8YiSAP+AhDtXHPr9jlrovgUpT4K+AVYFWHh/TwQex+yx15r+3vrLaZ+yj49s7cGTUNbtYtBsoFPzSz3kyW6KP+/hJ9ga9x8PaUmgaDp2moR5dnbRWykdMIgX+lAE2r6pa6Jpl1qN9cxWVjaRPPPcTMFSKNFLMzE9AACSfavlfwh4du/229ftfHPi+1lg+C2n3HneFfCl0hQa+6n5dTvkP3os8wwkYI+Zhz81/8AtA1yf9ozx4vwC8LyyPpMUkF38QtXt32pZafneunK4/8AXi52gFR9BigCh8O/2x/h18SPGVj4ZtJNb0bUdUR5NHbxDolzpsWrogyxtXmRRIQOdvDY7cGvca8C/bk8IReIv2aPGerRYg1vwpZv4o0fUF4ls7yyBnSSNuoJCMh9Q5Fev+BPEf/ACY+CtA14RGEapp9vfCM/wAHmxK+Pw3UAb1FFZviHxHpfhPRb3WNav7fStKsomnub28lWKGGMclmYnAA96ANKivnDwv+0X4/+NWuafdfC74dRyfDxrld/jLxdfNp8d/bhgHaxtVRppARuKySBVOB68fRqggc0AOooooAKKKKACiioL2+t9Otprm6mjt7eFDLLNK4RI0AyWZjwAAMkmgCeivFPBv7Z/wW+IPjq18HeHfH1hq2v3crw20MEM/k3DopZlinMYikOFONrnOOM17X1oAKKKKACiiigAooooAKKKKACiiigAooooA//2Q==";
 
 // In-memory state
 let lastPdfBlob = null;
@@ -249,7 +217,7 @@ quizForm.addEventListener("submit", async (e) => {
     setQuizLoading(true);
 
     try {
-        const doc = await generateCertificate(formData);
+        const doc = generateCertificate(formData);
         const pdfBlob = doc.output("blob");
         const filename = `CEU_Certificate_${formData.name.replace(/\s+/g, "_")}.pdf`;
 
@@ -360,18 +328,8 @@ function setQuizLoading(loading) {
 }
 
 // --- PDF Generation (jsPDF) ---
-async function generateCertificate(data) {
+function generateCertificate(data) {
     const { jsPDF } = window.jspdf;
-    
-    // Pre-load the signature via canvas BEFORE creating the PDF
-    // This is the most reliable approach across all jsPDF versions
-    let signatureDataURL = null;
-    try {
-        signatureDataURL = await getSignatureAsCanvasDataURL();
-        console.log('Signature pre-rendered, dataURL length:', signatureDataURL.length);
-    } catch (e) {
-        console.error('Failed to pre-render signature:', e);
-    }
 
     const doc = new jsPDF({
         orientation: "landscape",
@@ -488,7 +446,7 @@ async function generateCertificate(data) {
     doc.setFont("helvetica", "bold");
     doc.setFontSize(16);
     doc.setTextColor(...orange);
-    doc.text(`Blossoming Together Podcast \u2014 ${data.episode}`, w / 2, y, { align: "center" });
+    doc.text(`Blossoming Together Podcast — ${data.episode}`, w / 2, y, { align: "center" });
 
     // Date
     y += 26;
@@ -510,37 +468,17 @@ async function generateCertificate(data) {
     doc.setTextColor(255, 255, 255);
     doc.text("1.0 CEU Credit Awarded", w / 2, y + 19, { align: "center" });
 
-    // Signature image
+    // Signature image — use raw base64 directly (no canvas re-encoding)
     y += 44;
     const sigImgW = 120;
     const sigImgH = 50;
-    let sigRendered = false;
 
-    // Method 1: Use canvas-rendered dataURL (most reliable — proven in diagnostic test)
-    if (signatureDataURL) {
-        try {
-            doc.addImage(signatureDataURL, 'JPEG', (w - sigImgW) / 2, y, sigImgW, sigImgH);
-            sigRendered = true;
-            console.log('Signature rendered via canvas dataURL');
-        } catch (e) {
-            console.error('Signature addImage with canvas dataURL failed:', e);
-        }
-    }
-
-    // Method 2: Use raw base64 with explicit JPEG format
-    if (!sigRendered) {
-        try {
-            doc.addImage(KOSAI_SIGNATURE_B64, 'JPEG', (w - sigImgW) / 2, y, sigImgW, sigImgH);
-            sigRendered = true;
-            console.log('Signature rendered via raw base64');
-        } catch (e2) {
-            console.error('Signature addImage with raw base64 failed:', e2);
-        }
-    }
-
-    // Method 3: Final fallback to text
-    if (!sigRendered) {
-        console.warn('All image methods failed, using text fallback');
+    try {
+        doc.addImage(KOSAI_SIGNATURE_B64, 'JPEG', (w - sigImgW) / 2, y, sigImgW, sigImgH);
+        console.log('Signature rendered via raw base64');
+    } catch (e) {
+        console.error('Signature addImage failed:', e);
+        // Text fallback
         doc.setFont('helvetica', 'bolditalic');
         doc.setFontSize(16);
         doc.setTextColor(...darkBg);
