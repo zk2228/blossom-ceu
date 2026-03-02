@@ -27,32 +27,28 @@ const EPISODE_CODE_WORDS = {
     "Episode 18": ["aac", "myth", "learner"],
 };
 
-// Kosai Zaya's signature (base64-encoded PNG)
-const KOSAI_SIGNATURE = "data:image/png;base64,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";
+// Kosai Zaya's signature (base64-encoded JPEG)
+// IMPORTANT: Using JPEG format because jsPDF >= 2.4.0 has a known bug with PNG addImage (issue #3359)
+const KOSAI_SIGNATURE = "data:image/jpeg;base64,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";
 
-// Preload signature: load into Image, then draw to canvas to get a clean PNG data URL
-let signatureDataURL = null;
+// Preload signature into an HTMLImageElement (most reliable method for jsPDF addImage)
+let signatureImage = null;
+let signatureReady = false;
 (function preloadSignature() {
-    const img = new Image();
-    img.onload = function() {
-        try {
-            const canvas = document.createElement("canvas");
-            canvas.width = img.naturalWidth;
-            canvas.height = img.naturalHeight;
-            const ctx = canvas.getContext("2d");
-            ctx.drawImage(img, 0, 0);
-            signatureDataURL = canvas.toDataURL("image/png");
-            console.log("Signature preloaded via canvas, length:", signatureDataURL.length);
-        } catch (e) {
-            console.warn("Canvas preload failed, will use raw data URI:", e);
-            signatureDataURL = KOSAI_SIGNATURE;
-        }
-    };
-    img.onerror = function() {
-        console.warn("Image preload failed, will use raw data URI");
-        signatureDataURL = KOSAI_SIGNATURE;
-    };
-    img.src = KOSAI_SIGNATURE;
+    try {
+        const img = new Image();
+        img.onload = function() {
+            signatureImage = img;
+            signatureReady = true;
+            console.log("Signature image preloaded successfully:", img.width, "x", img.height);
+        };
+        img.onerror = function(e) {
+            console.error("Signature image failed to load:", e);
+        };
+        img.src = KOSAI_SIGNATURE;
+    } catch (e) {
+        console.error("Failed to preload signature:", e);
+    }
 })();
 
 // In-memory state
@@ -472,7 +468,7 @@ function generateCertificate(data) {
     doc.setFont("helvetica", "bold");
     doc.setFontSize(16);
     doc.setTextColor(...orange);
-    doc.text(`Blossoming Together Podcast — ${data.episode}`, w / 2, y, { align: "center" });
+    doc.text(`Blossoming Together Podcast \u2014 ${data.episode}`, w / 2, y, { align: "center" });
 
     // Date
     y += 26;
@@ -498,12 +494,33 @@ function generateCertificate(data) {
     y += 44;
     const sigImgW = 120;
     const sigImgH = 50;
-    const sigData = signatureDataURL || KOSAI_SIGNATURE;
-    try {
-        doc.addImage(sigData, "PNG", (w - sigImgW) / 2, y, sigImgW, sigImgH);
-    } catch (e) {
-        console.error("Signature image failed:", e);
-        // Fallback to text if image fails
+    let sigRendered = false;
+
+    // Method 1: Use preloaded HTMLImageElement (most reliable for jsPDF)
+    if (signatureImage && signatureReady) {
+        try {
+            doc.addImage(signatureImage, "JPEG", (w - sigImgW) / 2, y, sigImgW, sigImgH);
+            sigRendered = true;
+            console.log("Signature rendered via HTMLImageElement");
+        } catch (e) {
+            console.error("Signature addImage with HTMLImageElement failed:", e);
+        }
+    }
+
+    // Method 2: Use data URI string directly
+    if (!sigRendered) {
+        try {
+            doc.addImage(KOSAI_SIGNATURE, "JPEG", (w - sigImgW) / 2, y, sigImgW, sigImgH);
+            sigRendered = true;
+            console.log("Signature rendered via data URI");
+        } catch (e2) {
+            console.error("Signature addImage with data URI failed:", e2);
+        }
+    }
+
+    // Method 3: Final fallback to text
+    if (!sigRendered) {
+        console.warn("All image methods failed, using text fallback");
         doc.setFont("helvetica", "bolditalic");
         doc.setFontSize(16);
         doc.setTextColor(...darkBg);
