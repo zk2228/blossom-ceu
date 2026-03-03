@@ -3,6 +3,9 @@
    With Code Word Quiz Verification
    ============================================ */
 
+// Backend API endpoint (replaced at deploy time)
+const CGI_BIN = "__CGI_BIN__";
+
 // =============================================
 // CODE WORDS PER EPISODE
 // To update: just edit the arrays below.
@@ -221,6 +224,26 @@ quizForm.addEventListener("submit", async (e) => {
         lastFilename = filename;
 
         downloadPdf(pdfBlob, filename);
+
+        // Log completion to backend (fire-and-forget, don't block the user)
+        try {
+            fetch(`${CGI_BIN}/completions.py`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    name: formData.name,
+                    email: formData.email,
+                    bacbCertNumber: formData.bacbCertNumber,
+                    episode: formData.episode,
+                    dateWatched: formData.dateWatched
+                })
+            }).then(r => {
+                if (r.ok) console.log("Completion logged.");
+                else console.warn("Completion log failed:", r.status);
+            }).catch(e => console.warn("Completion log error:", e));
+        } catch (logErr) {
+            console.warn("Completion log error:", logErr);
+        }
 
         successName.textContent = formData.name;
         quizCard.style.display = "none";

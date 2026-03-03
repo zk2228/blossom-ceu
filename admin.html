@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CEU Completions Log | Blossom Admin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Nunito', sans-serif; background: #f9f5f1; color: #0A1823; padding: 24px; }
+        .container { max-width: 1100px; margin: 0 auto; }
+        h1 { font-size: 24px; color: #F26522; margin-bottom: 4px; }
+        .subtitle { color: #666; font-size: 14px; margin-bottom: 24px; }
+        .stats { display: flex; gap: 16px; margin-bottom: 24px; flex-wrap: wrap; }
+        .stat-card { background: #fff; border-radius: 8px; padding: 16px 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+        .stat-card .num { font-size: 28px; font-weight: 700; color: #F26522; }
+        .stat-card .label { font-size: 12px; color: #888; text-transform: uppercase; letter-spacing: 0.5px; }
+        .toolbar { display: flex; gap: 12px; margin-bottom: 16px; align-items: center; flex-wrap: wrap; }
+        .toolbar input, .toolbar select { padding: 8px 12px; border: 1px solid #ddd; border-radius: 6px; font-family: inherit; font-size: 14px; }
+        .toolbar input { flex: 1; min-width: 200px; }
+        .btn { padding: 8px 16px; border: none; border-radius: 6px; cursor: pointer; font-family: inherit; font-size: 14px; font-weight: 600; }
+        .btn-refresh { background: #F26522; color: #fff; }
+        .btn-refresh:hover { background: #d9551a; }
+        .btn-export { background: #0A1823; color: #fff; }
+        .btn-export:hover { background: #1a2d3e; }
+        table { width: 100%; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.08); border-collapse: collapse; }
+        th { background: #0A1823; color: #fff; text-align: left; padding: 12px 16px; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+        td { padding: 10px 16px; border-bottom: 1px solid #f0ebe6; font-size: 14px; }
+        tr:last-child td { border-bottom: none; }
+        tr:hover td { background: #fdf8f4; }
+        .empty { text-align: center; padding: 48px; color: #999; }
+        .loading { text-align: center; padding: 48px; color: #999; }
+        @media (max-width: 768px) {
+            table { font-size: 12px; }
+            th, td { padding: 8px 10px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>CEU Completions Log</h1>
+        <p class="subtitle">Blossom Children's Center - Certificate Tracking</p>
+
+        <div class="stats" id="stats"></div>
+
+        <div class="toolbar">
+            <input type="text" id="search" placeholder="Search by name, email, or episode...">
+            <select id="episodeFilter">
+                <option value="">All Episodes</option>
+            </select>
+            <button class="btn btn-refresh" onclick="loadData()">Refresh</button>
+            <button class="btn btn-export" onclick="exportCSV()">Export CSV</button>
+        </div>
+
+        <div id="tableContainer">
+            <div class="loading">Loading completions...</div>
+        </div>
+    </div>
+
+    <script>
+        const CGI_BIN = "__CGI_BIN__";
+        let allData = [];
+
+        async function loadData() {
+            try {
+                const res = await fetch(`${CGI_BIN}/completions.py`);
+                allData = await res.json();
+                renderStats();
+                populateEpisodeFilter();
+                renderTable();
+            } catch (e) {
+                document.getElementById("tableContainer").innerHTML =
+                    '<div class="empty">Failed to load data. Please try again.</div>';
+            }
+        }
+
+        function renderStats() {
+            const total = allData.length;
+            const uniqueEmails = new Set(allData.map(r => r.email.toLowerCase())).size;
+            const episodes = new Set(allData.map(r => r.episode)).size;
+            const today = new Date().toISOString().split("T")[0];
+            const todayCount = allData.filter(r => r.completedAt && r.completedAt.startsWith(today)).length;
+
+            document.getElementById("stats").innerHTML = `
+                <div class="stat-card"><div class="num">${total}</div><div class="label">Total Completions</div></div>
+                <div class="stat-card"><div class="num">${uniqueEmails}</div><div class="label">Unique People</div></div>
+                <div class="stat-card"><div class="num">${episodes}</div><div class="label">Episodes Covered</div></div>
+                <div class="stat-card"><div class="num">${todayCount}</div><div class="label">Today</div></div>
+            `;
+        }
+
+        function populateEpisodeFilter() {
+            const eps = [...new Set(allData.map(r => r.episode))].sort();
+            const sel = document.getElementById("episodeFilter");
+            const current = sel.value;
+            sel.innerHTML = '<option value="">All Episodes</option>';
+            eps.forEach(ep => {
+                sel.innerHTML += `<option value="${ep}" ${ep === current ? "selected" : ""}>${ep}</option>`;
+            });
+        }
+
+        function getFilteredData() {
+            const search = document.getElementById("search").value.toLowerCase();
+            const epFilter = document.getElementById("episodeFilter").value;
+            return allData.filter(r => {
+                const matchSearch = !search ||
+                    r.name.toLowerCase().includes(search) ||
+                    r.email.toLowerCase().includes(search) ||
+                    r.episode.toLowerCase().includes(search) ||
+                    r.bacbCertNumber.toLowerCase().includes(search);
+                const matchEp = !epFilter || r.episode === epFilter;
+                return matchSearch && matchEp;
+            });
+        }
+
+        function renderTable() {
+            const filtered = getFilteredData();
+            if (filtered.length === 0) {
+                document.getElementById("tableContainer").innerHTML =
+                    '<div class="empty">No completions found.</div>';
+                return;
+            }
+
+            let html = `<table>
+                <thead><tr>
+                    <th>#</th><th>Name</th><th>Email</th><th>BACB #</th><th>Episode</th><th>Date Watched</th><th>Completed</th>
+                </tr></thead><tbody>`;
+
+            filtered.forEach((r, i) => {
+                const completedDate = r.completedAt ? new Date(r.completedAt).toLocaleString() : "—";
+                html += `<tr>
+                    <td>${r.id}</td>
+                    <td>${esc(r.name)}</td>
+                    <td>${esc(r.email)}</td>
+                    <td>${esc(r.bacbCertNumber)}</td>
+                    <td>${esc(r.episode)}</td>
+                    <td>${esc(r.dateWatched)}</td>
+                    <td>${completedDate}</td>
+                </tr>`;
+            });
+
+            html += "</tbody></table>";
+            document.getElementById("tableContainer").innerHTML = html;
+        }
+
+        function esc(s) {
+            const d = document.createElement("div");
+            d.textContent = s || "";
+            return d.innerHTML;
+        }
+
+        function exportCSV() {
+            const filtered = getFilteredData();
+            if (!filtered.length) return;
+            const headers = ["ID", "Name", "Email", "BACB #", "Episode", "Date Watched", "Completed At"];
+            const rows = filtered.map(r => [r.id, r.name, r.email, r.bacbCertNumber, r.episode, r.dateWatched, r.completedAt]);
+            let csv = headers.join(",") + "\n";
+            rows.forEach(row => {
+                csv += row.map(v => `"${String(v || "").replace(/"/g, '""')}"`).join(",") + "\n";
+            });
+            const blob = new Blob([csv], { type: "text/csv" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = `ceu_completions_${new Date().toISOString().split("T")[0]}.csv`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        // Live filter
+        document.getElementById("search").addEventListener("input", renderTable);
+        document.getElementById("episodeFilter").addEventListener("change", renderTable);
+
+        // Initial load
+        loadData();
+    </script>
+</body>
+</html>
